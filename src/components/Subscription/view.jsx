@@ -12,7 +12,7 @@ export default function Form({handleChange, onClick}) {
             
             <div className="mb-3">
                 <label htmlFor="password" className='form-label'>Password: </label>
-                <input type='password' id='password' name='password' className='form-control' onChange={handleChange} on/>
+                <input type='password' id='password' name='password' className='form-control' onChange={handleChange}/>
             </div>
             
             <div className="mb-3">

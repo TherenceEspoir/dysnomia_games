@@ -46,7 +46,6 @@ export default function Subscription() {
 
 		const data = await result.text() ;
 
-		localStorage.token = data ;
 		setToken(() => data) ;
 		navigate("/");
 		
