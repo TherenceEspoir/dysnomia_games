@@ -1,0 +1,20 @@
+.header {
+    width: 100vw;
+    border-bottom: 1px solid white;
+    padding : 1rem;
+    text-align: center;
+}
+
+.header ul {
+	list-style: none;
+	padding: 0;
+}
+
+.header li {
+	display: inline-block;
+	padding-right: 1rem;
+    font-size: 2em;
+
+    text-decoration: none !important;
+    text-decoration-color: red !important;
+}
