@@ -13,7 +13,7 @@ export default function Header({ name }) {
 		<div className="header">
 			<ul>
 				<li><Link to={'/'} className="text-white text-decoration-none">Home</Link></li>
-				{/* <li><Link to={'/statistique'} className="text-white text-decoration-none">Statistiques</Link></li> */}
+				<li><Link to={'/subscription'} className="text-white text-decoration-none">Subscription</Link></li>
 			</ul>
 			{sentence} !
 		</div>

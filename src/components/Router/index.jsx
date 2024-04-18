@@ -5,6 +5,7 @@ import {
 
 import Home from '../Home';
 import Layout from '../Layout';
+import Subscription from "../Subscription";
 
 const router = createBrowserRouter([
     {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Home />,
+			},
+			{
+				path: '/subscription',
+				element: <Subscription />
 			}
 		]
 	}
