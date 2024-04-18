@@ -8,10 +8,9 @@ export function TokenContextProvider({ children }) {
     async function renewToken() {
         const result = await fetch(
             "https://m1.dysnomia.studio/api/Users/renewToken", {
-                body: JSON.stringify(user),
                 headers: {
                     "Content-Type": "application/json",
-                    Authentication : "Bearer " + token
+                    Authorization : "Bearer " + token
                 },
                 method: "GET",
                 mode: "cors"
@@ -41,7 +40,9 @@ export function TokenContextProvider({ children }) {
 
 		let timeoutId = setTimeout(() => {
             renewToken() ;
-		}, 6600000); // 6600000 ms = 1h50min
+            // console.log("RENEW") ;
+            // console.log(token) ;
+		}, 6600000); // 6600000 ms = 1h50min OU 5000 ms pour test
 
 		return () => clearTimeout(timeoutId);
 
