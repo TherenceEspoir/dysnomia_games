@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
+import { useNavigate } from "react-router-dom";
+
 
 import Form from './view';
 
@@ -7,6 +9,7 @@ export default function Subscription() {
 
 	const token = useToken();
 	const setToken = useTokenSetter();
+	const navigate = useNavigate();
 	
 	const [user, setUser] = useState({
 		username : '',
@@ -45,6 +48,7 @@ export default function Subscription() {
 
 		localStorage.token = data ;
 		setToken(() => data) ;
+		navigate("/");
 		
 	};
 
