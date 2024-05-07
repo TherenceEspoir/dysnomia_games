@@ -1,5 +1,5 @@
 import './index.css' ;
-//import {AuthContext} from '../../hooks/useAuth';
+import { useNavigate } from "react-router-dom";
 import { useToken,useTokenSetter } from '../../hooks/useToken';
 
 import React, { useState, useContext } from 'react';
@@ -10,6 +10,7 @@ import React, { useState, useContext } from 'react';
 export default function Register() {
     const token = useToken();
     const setToken = useTokenSetter();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         username: '',
@@ -42,6 +43,7 @@ export default function Register() {
         const data = await response.text();
         console.log("gagné : " + data) ;
         setToken(data);
+        navigate("/");
     }
 
     return (           

@@ -5,7 +5,7 @@ const UserContext = createContext();
 
 
 export function UserContextProvider({ children }) {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(localStorage.getItem('user') || null);
     const token = useToken();
 
     useEffect(() =>{
@@ -28,7 +28,6 @@ export function UserContextProvider({ children }) {
     ,[token]);
 
     useEffect(() => {
-        // Mise à jour des données utilisateur dans localStorage à chaque changement
         localStorage.setItem('user', JSON.stringify(user));
     },[user]);
 
@@ -39,12 +38,12 @@ export function UserContextProvider({ children }) {
     );
 }
 
-export function useUserContext() {
-    const { userContext } = useContext(UserContext);
-    return userContext;
+export function useUser() {
+    const { user } = useContext(UserContext);
+    return user;
 }
 
-export function useUserContextSetter() {
-    const { setUserContext } = useContext(UserContext);
-    return setUserContext;
+export function useUserSetter() {
+    const { setUser } = useContext(UserContext);
+    return setUser;
 }
