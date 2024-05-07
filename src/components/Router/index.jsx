@@ -5,7 +5,7 @@ import {
 
 import Home from '../Home';
 import Layout from '../Layout';
-import Register from "../Register";
+import Auth from "../Auth";
 import Subscription from "../Subscription";
 
 
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
 				element: <Home />,
 			},
 			{
-				path: '/register',
-				element: <Register />,
+				path: '/authentication',
+				element: <Auth />,
 			},
 			{
 				path: '/subscription',

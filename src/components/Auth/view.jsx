@@ -30,30 +30,38 @@ export default function Register() {
         const response = await fetch('https://m1.dysnomia.studio/api/Users/auth', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token, // on ajoute le token dans le header
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(user),
         });
 
         if (!response.ok) {
-            console.error('Erreur lors de l\'inscription : ', response);
+            console.error('Erreur lors de la connexion : ', response);
             return;
         }
         const data = await response.text();
+        console.log("gagné : " + data) ;
         setToken(data);
     }
 
-    return (
-        <div>
-            <h1>Register</h1>
-            <form onSubmit={handleSubmit}> 
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" value={user.name} onChange={handleChange} />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" value={user.password} onChange={handleChange}/>
-                <button type="submit">Register</button>
-            </form>
-        </div>
+    return (           
+
+        <form id="subscriptionForm">
+            <p className='text-center'>Bienvenu nouvel ami !</p>
+
+            <div className="mb-3">
+                <label htmlFor="username" className='form-label'>Username: </label>
+                <input type='text' value={user.name} id='username' name='username' className='form-control' onChange={handleChange}/>
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="password" className='form-label'>Password: </label>
+                <input type='password' id='password' name='password' value={user.password} className='form-control' onChange={handleChange}/>
+            </div>
+
+
+            <input type='submit' value="Se connecter" className="btn btn-primary w-100" onClick={handleSubmit}/>
+        </form>
+
     );
 }

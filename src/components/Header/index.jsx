@@ -14,6 +14,7 @@ export default function Header({ name }) {
 			<ul>
 				<li><Link to={'/'} className="text-white text-decoration-none">Home</Link></li>
 				<li><Link to={'/subscription'} className="text-white text-decoration-none">Subscription</Link></li>
+				<li><Link to={'/authentication'} className="text-white text-decoration-none">Authentication</Link></li>
 			</ul>
 			{sentence} !
 		</div>

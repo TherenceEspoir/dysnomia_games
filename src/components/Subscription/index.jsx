@@ -16,6 +16,8 @@ export default function Subscription() {
 		password : '',
 		confirmationPassword : ''
 	}) ;
+
+	const [error, setError] = useState(null) ;
 	
 	console.log(user) ;
 	console.log(token) ;
@@ -41,7 +43,14 @@ export default function Subscription() {
 		) ;
 
 		if(!result.ok){
-			throw "Pas OK !" ;
+			const errorData = await result.text();
+			
+			setError(() => ({
+				title : "Mais qu'est ce qu'il se passe ?!",
+				message : errorData
+			})) ;
+      		throw new Error(errorData || "Une erreur s'est produite");
+			
 		}
 
 		const data = await result.text() ;
@@ -53,6 +62,6 @@ export default function Subscription() {
 
     
 	return (
-		<Form handleChange={handleChange} onClick={submitForm}/>
+		<Form handleChange={handleChange} onClick={submitForm} mess={error}/>
 	);
 }
