@@ -5,6 +5,9 @@ import {
 
 import Home from '../Home';
 import Layout from '../Layout';
+import Auth from "../Auth";
+import Subscription from "../Subscription";
+
 
 const router = createBrowserRouter([
     {
@@ -13,6 +16,14 @@ const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Home />,
+			},
+			{
+				path: '/authentication',
+				element: <Auth />,
+			},
+			{
+				path: '/subscription',
+				element: <Subscription />
 			}
 		]
 	}
