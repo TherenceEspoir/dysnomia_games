@@ -2,3 +2,12 @@
     width : 40% ;
     margin : auto ;
 }
+
+#frameError{
+    border : 1px solid red ;
+    border-radius: 15px;
+    background-color: rgba(255, 0, 0, 0.3);
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 6px;
+}
