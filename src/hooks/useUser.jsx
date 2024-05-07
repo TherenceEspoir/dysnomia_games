@@ -3,15 +3,11 @@ import { useToken } from './useToken';
 
 const UserContext = createContext();
 
-export function useUserContext() {
-    return useContext(UserContext);
-}
 
 export function UserContextProvider({ children }) {
-    const [userData, setUserData] = useState({});
-    const { token } = useToken();
+    const [user, setUser] = useState({});
+    const token = useToken();
 
-    //https://m1.dysnomia.studio/api/Users/me : c'est le lien pour récupérer les données de l'utilisateur connecté
     useEffect(() =>{
         async function getData(){
             const result = await fetch('https://m1.dysnomia.studio/api/Users/me', {
@@ -25,7 +21,7 @@ export function UserContextProvider({ children }) {
             }
 
             const data = await result.json();
-            setUserData(data);
+            setUser(data);
         }
         getData();
     }
@@ -33,12 +29,22 @@ export function UserContextProvider({ children }) {
 
     useEffect(() => {
         // Mise à jour des données utilisateur dans localStorage à chaque changement
-        localStorage.setItem('userData', JSON.stringify(userData));
-    },[userData]);
+        localStorage.setItem('user', JSON.stringify(user));
+    },[user]);
 
     return (
-        <UserContext.Provider value={{ userData, setUserData }}>
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
         </UserContext.Provider>
     );
+}
+
+export function useUserContext() {
+    const { userContext } = useContext(UserContext);
+    return userContext;
+}
+
+export function useUserContextSetter() {
+    const { setUserContext } = useContext(UserContext);
+    return setUserContext;
 }
