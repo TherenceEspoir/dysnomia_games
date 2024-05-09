@@ -1,30 +1,21 @@
 import './index.css' ;
-import useAPI from '../../hooks/useApi';
 
-export default function Home() {
-    const data = useAPI();
+export default function Top({best10}) {
 
-    console.log(data) ;
+    console.log(best10) ;
     
     return (
-        <div>
-            <h1>Home</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Game</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((game) => (
-                        <tr key={game.id}>
-                            <td>{game.name}</td>
-                            <td>{game.rating}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className='w-75 m-auto'>
+            <h1 className='text-center mb-4'>Top 10</h1>
+            
+            
+            {best10.map((game) => (
+                <div key={game.id} className='row'>
+                    <div className='col-6 text-end mb-3'><a href={`/game/${game.id}`} className='aGame'>{game.name}</a></div>
+                    <div className='col-6'>{(game.rating).toFixed(3)}</div>
+                </div>
+            ))}
+
         </div>
 
     );
