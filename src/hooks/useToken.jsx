@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const TokenContext = createContext();
 
 export function TokenContextProvider({ children }) {
-    const [token, setToken] = useState(localStorage.getItem('token') || null);
+    const [token, setToken] = useState(localStorage.getItem('token') || "null");
 
     async function renewToken() {
         const result = await fetch(

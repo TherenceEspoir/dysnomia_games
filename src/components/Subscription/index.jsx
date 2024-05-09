@@ -19,8 +19,8 @@ export default function Subscription() {
 
 	const [error, setError] = useState(null) ;
 	
-	console.log(user) ;
-	console.log(token) ;
+	// console.log(user) ;
+	// console.log(token) ;
 	function handleChange(e) {
 		setUser((currentUser) => ({
 			...currentUser,

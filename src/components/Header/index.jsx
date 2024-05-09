@@ -9,7 +9,7 @@ export default function Header() {
 	const user = useUser() ;
 
 	useEffect(() => {
-		if(user == null) {
+		if(user === "null") {
 			setSentence('Hello Super Juju !');
 		} else {
 			setSentence(`Salut ${user.name} !`);

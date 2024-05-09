@@ -3,6 +3,8 @@ import useAPI from '../../hooks/useApi';
 
 export default function Home() {
     const data = useAPI();
+
+    console.log(data) ;
     
     return (
         <div>
