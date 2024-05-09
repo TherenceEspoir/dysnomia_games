@@ -35,7 +35,7 @@ function Screens({imageUrls}) {
     }
 }
 
-export default function Game({name, summary, cover, screens}) {
+export default function Game({name, summary, cover, screens, handleAdd, handleRemove}) {
 
     function Cover(){
         if(cover != "null")
@@ -55,6 +55,11 @@ export default function Game({name, summary, cover, screens}) {
 
             
             <Screens imageUrls={screens} id="myCarousel"/>
+
+            <div id='buttons'>
+                <button className='btn btn-outline-warning' type='button' onClick={handleAdd}>Add to fav</button>
+                <button className='btn btn-outline-danger' type='button' onClick={handleRemove}>Remove from fav</button>
+            </div>
 
             
         </div>

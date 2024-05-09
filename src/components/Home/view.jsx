@@ -1,8 +1,6 @@
 import './index.css' ;
 
 export default function Top({best10}) {
-
-    console.log(best10) ;
     
     return (
         <div className='w-75 m-auto'>
