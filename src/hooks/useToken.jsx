@@ -34,14 +34,14 @@ export function TokenContextProvider({ children }) {
 
     // Renouvellement automatique du token
     useEffect(() => {
-		if(token === null) {
+		if(token === "null") {
 			return ;
 		}
 
 		let timeoutId = setTimeout(() => {
             renewToken() ;
-            // console.log("RENEW") ;
-            // console.log(token) ;
+            console.log("RENEW") ;
+            console.log(token) ;
 		}, 6600000); // 6600000 ms = 1h50min OU 5000 ms pour test
 
 		return () => clearTimeout(timeoutId);
