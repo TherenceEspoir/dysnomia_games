@@ -6,9 +6,10 @@ import Footer from '../Footer';
 import "./index.css" ;
 
 export default function Layout() {
+
 	return (
 		<>
-			<Header name={'Julian'} />
+			<Header />
 			<Outlet />
 			<Footer />
 		</>
