@@ -30,7 +30,7 @@ export function UserContextProvider({ children }) {
     ,[token]);
 
     useEffect(() => {
-        localStorage.setItem('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
     },[user]);
 
     return (

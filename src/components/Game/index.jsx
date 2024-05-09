@@ -3,6 +3,53 @@ import { useEffect, useState } from "react";
 
 import Game from "./view";
 
+async function handleAdd(id) {
+    console.log("j'ajoute : " , id) ;
+
+    const result = await fetch(
+        "https://m1.dysnomia.studio/api/Users/favorites/add/" + id, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization : "Bearer " + localStorage.getItem('token')
+            },
+            method: "POST",
+            mode: "cors"
+        }
+    ) ;
+
+    if(result.status === 409)
+        throw "Conflit : Déjà en favori !" ;
+    if(result.status === 204)
+        console.log("Ajout au favori ok") ;
+    else {
+        const errorData = await result.json();	
+        throw new Error(errorData || "Une erreur s'est produite pour ajouter le jeu aux favoris");
+    }
+
+}
+
+async function handleRemove(id) {
+    console.log("je retire : ", id) ;
+
+    const result = await fetch(
+        "https://m1.dysnomia.studio/api/Users/favorites/remove/" + id, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization : "Bearer " + localStorage.getItem('token')
+            },
+            method: "DELETE",
+            mode: "cors"
+        }
+    ) ;
+
+    if(result.status === 204)
+        console.log("Retrait des favoris ok") ;
+    else {
+        const errorData = await result.json();	
+        throw new Error(errorData || "Une erreur s'est produite pour retirer le jeu des favoris");
+    }
+}
+
 export default function GameDetails() {
 
     let { gameId } = useParams();
@@ -16,6 +63,10 @@ export default function GameDetails() {
     // - summary OK
     // - cover id
     // - screenshots ids
+
+    // console.log("INFOS user") ;
+    // let user = JSON.parse(localStorage.getItem("user")) ;
+    // console.log(user) ;
 
     useEffect(() => {
         async function getInfos() {
@@ -116,12 +167,17 @@ export default function GameDetails() {
 
     if(infos != null) {
         const uniqueItems = [...new Set(screenshots)];
-        return <Game name={infos.name} summary={infos.summary} cover={cover} screens={uniqueItems}/> ;
+        return <Game 
+            name={infos.name} 
+            summary={infos.summary} 
+            cover={cover} 
+            screens={uniqueItems}
+            handleAdd={() => handleAdd(gameId)}
+            handleRemove={() => handleRemove(gameId)} /> ;
     }
     else {
         return <p>Désolé, il n'y a rien par ici :/</p> ;
     }
-
 
 
 }

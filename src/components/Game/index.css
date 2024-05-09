@@ -31,3 +31,12 @@
     font-family:  'Josefin Sans ' , sans-serif;
     font-weight: bold;
 }
+
+#buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width : 50% ;
+    margin : auto ;
+    margin-top : 30px ;
+}
