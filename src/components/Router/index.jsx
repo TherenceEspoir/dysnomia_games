@@ -7,6 +7,7 @@ import Home from '../Home';
 import Layout from '../Layout';
 import Auth from "../Auth";
 import Subscription from "../Subscription";
+import GameDetails from "../Game" ;
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
 			{
 				path: '/subscription',
 				element: <Subscription />
+			},
+			{
+				path: '/game/:gameId',
+				element: <GameDetails />
 			}
 		]
 	}

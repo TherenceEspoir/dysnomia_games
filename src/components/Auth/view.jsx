@@ -17,7 +17,7 @@ export default function Register() {
         password: '',
     });
 
-    console.log(user);
+    // console.log(user);
 
     function handleChange(event) {
         setUser((currentUser) => ({

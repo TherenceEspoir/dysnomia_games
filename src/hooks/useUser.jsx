@@ -5,7 +5,7 @@ const UserContext = createContext();
 
 
 export function UserContextProvider({ children }) {
-    const [user, setUser] = useState(localStorage.getItem('user') || null);
+    const [user, setUser] = useState(localStorage.getItem('user') || "null");
     const token = useToken();
 
     useEffect(() =>{
@@ -16,19 +16,21 @@ export function UserContextProvider({ children }) {
                 }
             });
 
-            if(!result.ok){
-                throw 'Pas OK';
+            if((!result.ok) && token === "null"){
+                throw 'User pas connecté';
+            } else if(!result.ok) {
+                throw 'Request useUser pas OK' ;
             }
 
             const data = await result.json();
-            setUser(data);
+            setUser(() => data);
         }
         getData();
     }
     ,[token]);
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', user);
     },[user]);
 
     return (

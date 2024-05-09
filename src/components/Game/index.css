@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+.carousel-root{
+    width: 60%;
+    margin: auto;
+    border: 1px solid red;
+}
+.slide div img, .slide div{
+    height: 100%;
+    object-fit: cover;
+    /* border : 3px solid blue ; */
+}
+
+#gamePage{
+    width: 75%;
+    margin: auto;
+}
+
+.imageCtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.coverGame{
+    width: 650px ;
+    border : 1px solid red ;
+}
+
+.summary {
+    margin-top : 4px ;
+    font-family:  'Josefin Sans ' , sans-serif;
+    font-weight: bold;
+}
