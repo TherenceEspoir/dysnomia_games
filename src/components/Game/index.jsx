@@ -4,8 +4,9 @@ import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
 import { useNavigate } from "react-router-dom";
 
 import Game from "./view";
+import { useUser, useUserSetter } from "../../hooks/useUser.jsx";
 
-async function handleAdd(id) {
+async function handleAdd(id, setUser, currentGame) {
     console.log("j'ajoute : " , id) ;
 
     const result = await fetch(
@@ -21,16 +22,21 @@ async function handleAdd(id) {
 
     if(result.status === 409)
         throw "Conflit : Déjà en favori !" ;
-    if(result.status === 204)
+    if(result.status === 204) {
         console.log("Ajout au favori ok") ;
-    else {
+        setUser((currUser) => {
+            currUser.favorites.push(currentGame);
+
+            return {...currUser};
+        });
+    } else {
         const errorData = await result.json();	
         throw new Error(errorData || "Une erreur s'est produite pour ajouter le jeu aux favoris");
     }
 
 }
 
-async function handleRemove(id) {
+async function handleRemove(id, setUser) {
     console.log("je retire : ", id) ;
 
     const result = await fetch(
@@ -44,9 +50,14 @@ async function handleRemove(id) {
         }
     ) ;
 
-    if(result.status === 204)
+    if(result.status === 204) {
         console.log("Retrait des favoris ok") ;
-    else {
+        setUser((currUser) => {
+            currUser.favorites = currUser.favorites.filter(x => x.id != id);
+            
+            return {...currUser};
+        })
+    } else {
         const errorData = await result.json();	
         throw new Error(errorData || "Une erreur s'est produite pour retirer le jeu des favoris");
     }
@@ -58,7 +69,10 @@ export default function GameDetails() {
     const [infos, setInfos] = useState(null) ;
     const [cover, setCover] = useState("null") ;
     const [screenshots, setScreenshots] = useState([]) ;
+    const [compagnies, setCompagnies] = useState([]) ;
     const token = useToken() ;
+    const user = useUser() ;
+    const setUser = useUserSetter() ;
     const navigate = useNavigate();
 
 
@@ -165,8 +179,39 @@ export default function GameDetails() {
         };
 
 
+        async function getCompagnies() {
+            setCompagnies([]) ;
+            let ids = infos.involvedCompanies.ids ;
+
+            for(const id of ids){
+                const result = await fetch(
+                    "https://m1.dysnomia.studio/api/Companies/" + id, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization : "Bearer " + localStorage.getItem('token')
+                        },
+                        method: "GET",
+                        mode: "cors"
+                    }
+                ) ;
+                
+                if(!result.ok || result.status == 204){
+                    const errorData = await result.text();
+                    throw new Error(errorData || "Une erreur s'est produite pour récupérer les compagnies du jeu");
+                }
+        
+                const data = await result.json() ;
+                setCompagnies((currentTab) => ([
+                    ...currentTab,
+                    [id, data.name]
+                ])) ;
+            }
+        }
+
+
         getCover() ;
         getScreenshots() ;
+        getCompagnies() ;
         // console.log(screenshots) ;
 
     }, [infos])
@@ -181,8 +226,11 @@ export default function GameDetails() {
             summary={infos.summary} 
             cover={cover} 
             screens={uniqueItems}
-            handleAdd={() => handleAdd(gameId)}
-            handleRemove={() => handleRemove(gameId)} /> ;
+            compagnies={compagnies}
+            handleAdd={() => handleAdd(gameId, setUser, infos)}
+            handleRemove={() => handleRemove(gameId, setUser)}
+            isFavorite={typeof user?.favorites?.find(x => x.id === infos.id) !== 'undefined'}
+        /> ;
     }
     else {
         return <p>Désolé, il n'y a rien par ici :/</p> ;
