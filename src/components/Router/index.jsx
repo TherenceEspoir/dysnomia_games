@@ -9,6 +9,7 @@ import Auth from "../Auth";
 import Subscription from "../Subscription";
 import GameDetails from "../Game" ;
 import Profile from "../Profile";
+import Gamelist from "../Gamelist";
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
 			{
 				path: '/profile',
 				element: <Profile />
+			},
+			{
+				path: '/games',
+				element: <Gamelist />
 			}
 		]
 	}
