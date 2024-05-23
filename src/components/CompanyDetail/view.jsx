@@ -17,7 +17,7 @@ const CompanyDetailsView = ({ data, error, loading }) => {
         <div>
             <h1>Company Details</h1>
             <p><strong>Name:</strong> {data.name}</p>
-            <p><strong>Description:</strong> {data.summary}</p>
+            <p><strong>Summary:</strong> {data.summary}</p>
         </div>
     );
 };

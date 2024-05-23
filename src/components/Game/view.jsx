@@ -47,15 +47,19 @@ export default function Game({name, summary, cover, screens, compagnies, handleA
     }
 
     function Compagnies() {
-        return (
-            <>
-                {compagnies.map((tab) => (
-                    <div key={tab[0]}>
-                        <a href={`/compagnie/${tab[0]}`} className='aComp'>{tab[1]}</a>
-                    </div>
-                ))}
-            </> 
-        ) ;
+        if(compagnies.length != 0 ){
+            return (
+                <>
+                    <h4 className='mt-5'>Compagnies impliquées : </h4>
+                    {compagnies.map((tab) => (
+                        <div key={tab[0]}>
+                            <a href={`/company/${tab[0]}`} className='aComp'>{tab[1]}</a>
+                        </div>
+                    ))}
+                </> 
+            ) ;
+        }
+            
     }
 
     let button = <button className='btn btn-outline-warning' type='button' onClick={handleAdd}>Add to fav</button> ;
@@ -73,7 +77,6 @@ export default function Game({name, summary, cover, screens, compagnies, handleA
             
             <Screens imageUrls={screens} id="myCarousel"/>
 
-            <h4 className='mt-5'>Compagnies impliquées : </h4>
             <Compagnies />
 
             <div id='buttons'>
