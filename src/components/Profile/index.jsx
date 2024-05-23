@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 //utiliser le hook useProfile
 import useProfile from "../../hooks/useProfile";
 import useDeleteAccount from "../../hooks/useDeleteAccount";
+import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
 
 export default function Profile() {
     //récupérer les données du profil de l'utilisateur
     const { data, error, loading } = useProfile();
     //récupérer les données de la suppression du compte
     const { deleteAccount, deleting,deleteError } = useDeleteAccount();
+    const token = useToken() ;
     const navigate = useNavigate(); 
 
     const handleDeleteAccount = async () => {
@@ -23,6 +25,11 @@ export default function Profile() {
             alert(`Erreur lors de la suppression du compte : ${deleteError?.message}`);
         }
     };
+
+    if(token == "null"){
+        console.log("redirection") ;
+        navigate("/authentication");
+    }
 
 
     //si le chargement est en cours

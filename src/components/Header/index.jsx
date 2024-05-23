@@ -37,7 +37,12 @@ export default function Header() {
 
 	function Log(){
 		if(token != "null"){
-			return <li><LogoutButton /></li> ;
+			return (
+				<>
+					<li><Link to={'/profile'} className="text-white text-decoration-none">MyProfile</Link></li>
+					<li><LogoutButton /></li>
+				</>	
+			) ;
 		} else {
 			return <li><Link to={'/authentication'} className="text-white text-decoration-none">Authentication</Link></li> ;
 		}
