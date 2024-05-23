@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
+import { useNavigate } from "react-router-dom";
 
 import Game from "./view";
 
@@ -56,6 +58,8 @@ export default function GameDetails() {
     const [infos, setInfos] = useState(null) ;
     const [cover, setCover] = useState("null") ;
     const [screenshots, setScreenshots] = useState([]) ;
+    const token = useToken() ;
+    const navigate = useNavigate();
 
 
     // récupérer les infos comme : 
@@ -92,6 +96,11 @@ export default function GameDetails() {
             setInfos(data) ;
         };
 
+        if(token == "null"){
+            console.log("redirection") ;
+            navigate("/authentication");
+        }
+        
         getInfos() ;
 
     }, [gameId]) ;
