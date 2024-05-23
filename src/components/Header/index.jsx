@@ -30,7 +30,7 @@ export default function Header() {
 		}
 
 		return (
-			<FontAwesomeIcon icon={faLock} onClick={handleLogout} title="Logout"/>
+			<FontAwesomeIcon icon={faLock} onClick={handleLogout} title="Logout" id="myLock"/>
 		) ;
 	}
 
