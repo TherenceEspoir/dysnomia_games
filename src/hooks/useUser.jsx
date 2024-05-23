@@ -17,6 +17,7 @@ export function UserContextProvider({ children }) {
             });
 
             if((!result.ok) && token === "null"){
+                setUser("null") ;
                 throw 'User pas connecté';
             } else if(!result.ok) {
                 throw 'Request useUser pas OK' ;

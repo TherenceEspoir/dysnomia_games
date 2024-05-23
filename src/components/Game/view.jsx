@@ -35,7 +35,7 @@ function Screens({imageUrls}) {
     }
 }
 
-export default function Game({name, summary, cover, screens, handleAdd, handleRemove}) {
+export default function Game({name, summary, cover, screens, compagnies, handleAdd, handleRemove, isFavorite}) {
 
     function Cover(){
         if(cover != "null")
@@ -44,6 +44,27 @@ export default function Game({name, summary, cover, screens, handleAdd, handleRe
                     <img src={cover} alt="cover" className='coverGame'/>
                 </div>
             ) ;
+    }
+
+    function Compagnies() {
+        if(compagnies.length != 0 ){
+            return (
+                <>
+                    <h4 className='mt-5'>Compagnies impliquées : </h4>
+                    {compagnies.map((tab) => (
+                        <div key={tab[0]}>
+                            <a href={`/company/${tab[0]}`} className='aComp'>{tab[1]}</a>
+                        </div>
+                    ))}
+                </> 
+            ) ;
+        }
+            
+    }
+
+    let button = <button className='btn btn-outline-warning' type='button' onClick={handleAdd}>Add to fav</button> ;
+    if(isFavorite) {
+        button = <button className='btn btn-outline-danger' type='button' onClick={handleRemove}>Remove from fav</button>;
     }
     
     return (
@@ -56,9 +77,10 @@ export default function Game({name, summary, cover, screens, handleAdd, handleRe
             
             <Screens imageUrls={screens} id="myCarousel"/>
 
+            <Compagnies />
+
             <div id='buttons'>
-                <button className='btn btn-outline-warning' type='button' onClick={handleAdd}>Add to fav</button>
-                <button className='btn btn-outline-danger' type='button' onClick={handleRemove}>Remove from fav</button>
+                {button}
             </div>
 
             
