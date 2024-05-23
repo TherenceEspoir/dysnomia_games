@@ -8,11 +8,11 @@ export default async function getCompanyById(companyId) {
         });
 
         if(result.status===204){
+            console.log("Data not available for the company ", companyId)
             return { data: null, error: null };
         }
 
         if (!result.ok) {
-        
             throw new Error("Error fetching company details");
         }
 

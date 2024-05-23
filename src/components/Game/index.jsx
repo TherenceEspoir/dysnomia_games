@@ -6,62 +6,31 @@ import { useNavigate } from "react-router-dom";
 
 import Game from "./view";
 import { useUser, useUserSetter } from "../../hooks/useUser.jsx";
+import postFavorite from "../../business/postFavorite.js";
+import deleteFavorite from "../../business/deleteFavorite.js";
 
 async function handleAdd(id, setUser, currentGame) {
     console.log("j'ajoute : " , id) ;
 
-    const result = await fetch(
-        "https://m1.dysnomia.studio/api/Users/favorites/add/" + id, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization : "Bearer " + localStorage.getItem('token')
-            },
-            method: "POST",
-            mode: "cors"
-        }
-    ) ;
-
-    if(result.status === 409)
-        throw "Conflit : Déjà en favori !" ;
-    if(result.status === 204) {
-        console.log("Ajout au favori ok") ;
-        setUser((currUser) => {
-            currUser.favorites.push(currentGame);
-
-            return {...currUser};
-        });
-    } else {
-        const errorData = await result.json();	
-        throw new Error(errorData || "Une erreur s'est produite pour ajouter le jeu aux favoris");
-    }
+    await postFavorite(id) ;
+    
+    setUser((currUser) => {
+        currUser.favorites.push(currentGame);
+        return {...currUser};
+    });
 
 }
 
 async function handleRemove(id, setUser) {
     console.log("je retire : ", id) ;
 
-    const result = await fetch(
-        "https://m1.dysnomia.studio/api/Users/favorites/remove/" + id, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization : "Bearer " + localStorage.getItem('token')
-            },
-            method: "DELETE",
-            mode: "cors"
-        }
-    ) ;
+    await deleteFavorite(id) ;
 
-    if(result.status === 204) {
-        console.log("Retrait des favoris ok") ;
-        setUser((currUser) => {
-            currUser.favorites = currUser.favorites.filter(x => x.id != id);
-            
-            return {...currUser};
-        })
-    } else {
-        const errorData = await result.json();	
-        throw new Error(errorData || "Une erreur s'est produite pour retirer le jeu des favoris");
-    }
+    setUser((currUser) => {
+        currUser.favorites = currUser.favorites.filter(x => x.id != id);
+        
+        return {...currUser};
+    })
 }
 
 export default function GameDetails() {
@@ -75,13 +44,6 @@ export default function GameDetails() {
     const user = useUser() ;
     const setUser = useUserSetter() ;
     const navigate = useNavigate();
-
-
-    // récupérer les infos comme : 
-    // - name OK
-    // - summary OK
-    // - cover id
-    // - screenshots ids
 
     // console.log("INFOS user") ;
     // let user = JSON.parse(localStorage.getItem("user")) ;
@@ -188,10 +150,13 @@ export default function GameDetails() {
             for(const id of ids){
                 const { data, error } = await getCompanyById(id);
 
-                setCompagnies((currentTab) => ([
-                    ...currentTab,
-                    [id, data.name]
-                ])) ;
+                if(data != null){
+                    setCompagnies((currentTab) => ([
+                        ...currentTab,
+                        [id, data.name]
+                    ])) ;
+                }
+                
             }
         }
 
