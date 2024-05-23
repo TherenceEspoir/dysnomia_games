@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useDeleteAccount from "../../hooks/useDeleteAccount";
 import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
+import ProfilePage from "./view.jsx";
 
 export default function Profile() {
     //récupérer les données du profil de l'utilisateur
@@ -43,21 +44,6 @@ export default function Profile() {
     }
 
     return (
-        <div>
-            <h1>Profile</h1>
-            <p>Name: {data.name}</p>
-            <h2>Favorites</h2>
-            <ul>
-                {data.favorites.map((game) => (
-                    <li key={game.id}>
-                        <a href={`/game/${game.id}`}>{game.name}</a>
-                    </li>
-                ))}
-            </ul>
-            <button onClick={handleDeleteAccount} disabled={deleting}>
-                {deleting ? 'Suppression en cours...' : 'Supprimer mon compte'}
-            </button>
-            {deleteError && <p style={{ color: 'red' }}>Erreur: {deleteError.message}</p>}
-        </div>
+        <ProfilePage data={data} handleDeleteAccount={handleDeleteAccount} deleting={deleting} deleteError={deleteError}/>
     );
 }
