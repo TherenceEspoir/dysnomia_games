@@ -9,25 +9,25 @@ export default function Home() {
 	const [content, setContent] = useState(null) ;
     const [searchWords, setSearchWords] = useState(localStorage.getItem("searchWords") || null) ;
 	const top10 = useAPI() ;
-    const [films, setFilms] = useState(null) ; // par défaut : les 10 meilleurs films
+    const [games, setGames] = useState(null) ; // par défaut : les 10 meilleurs films
 
 
 	useEffect(() => {
 
-		if (films != null) {
+		if (games != null) {
 			setContent(() => (
-				<Results movies={films} handleChange={handleSearch} title={"Résultats"} />
+				<Results games={games} handleChange={handleSearch} title={"Résultats"} />
 			));
 		} else {
 			setContent(() => (
-				<Results movies={top10} handleChange={handleSearch} title={"Top 10"}/>
+				<Results games={top10} handleChange={handleSearch} title={"Top 10"}/>
 			)) ;
 		}
 	  
-	}, [films, top10]) ;
+	}, [games, top10]) ;
 
 
-	async function fetchFilms(words){
+	async function fetchGames(words){
 
 		const result = await fetch(
 			"https://m1.dysnomia.studio/api/Games/search?term=" + words, {
@@ -52,7 +52,7 @@ export default function Home() {
 
 		const data = await result.json() ;
 
-		setFilms(() => data) ;
+		setGames(() => data) ;
 	}
 
 
@@ -63,7 +63,7 @@ export default function Home() {
 		localStorage.setItem("searchWords", e.target.value);
 
 		if(e.target.value.length >= 4) {
-			await fetchFilms(e.target.value) ;
+			await fetchGames(e.target.value) ;
 		} else if(e.target.value.length == 0) 
 			setFilms(null) ;
 
@@ -71,7 +71,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if(searchWords != null)
-			fetchFilms(searchWords) ;
+			fetchGames(searchWords) ;
 	}, [])
 	
 

@@ -8,6 +8,7 @@ import Game from "./view";
 import { useUser, useUserSetter } from "../../hooks/useUser.jsx";
 import postFavorite from "../../business/postFavorite.js";
 import deleteFavorite from "../../business/deleteFavorite.js";
+import getInfosByGameId from "../../business/getInfosByGameId.js";
 
 async function handleAdd(id, setUser, currentGame) {
     console.log("j'ajoute : " , id) ;
@@ -51,25 +52,7 @@ export default function GameDetails() {
 
     useEffect(() => {
         async function getInfos() {
-
-            const result = await fetch(
-                "https://m1.dysnomia.studio/api/Games/" + gameId, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization : "Bearer " + localStorage.getItem('token')
-                    },
-                    method: "GET",
-                    mode: "cors"
-                }
-            ) ;
-    
-            if(!result.ok){
-                const errorData = await result.json();			
-                throw new Error(errorData || "Une erreur s'est produite pour obtenir les infos du jeu");
-                
-            }
-    
-            const data = await result.json() ;
+            const {data, error} = await getInfosByGameId(gameId) ; // appel d'un hook non possible ici ?!
             setInfos(data) ;
         };
 

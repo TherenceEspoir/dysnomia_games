@@ -17,6 +17,7 @@ export default function useProfile() {
                 });
 
                 if (!result.ok) {
+                    localStorage.clear();
                     throw new Error("Error fetching profile");
                 }
 
