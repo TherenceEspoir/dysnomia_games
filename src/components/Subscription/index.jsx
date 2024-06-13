@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 
 import Form from './view';
+import postSubscription from '../../business/postSubscription.js';
 
 export default function Subscription() {
 
-	const token = useToken();
+	const [error, setError] = useState(null) ;
 	const setToken = useTokenSetter();
 	const navigate = useNavigate();
 	
@@ -17,7 +18,6 @@ export default function Subscription() {
 		confirmationPassword : ''
 	}) ;
 
-	const [error, setError] = useState(null) ;
 	
 	// console.log(user) ;
 	// console.log(token) ;
@@ -31,30 +31,7 @@ export default function Subscription() {
 	async function submitForm(e) {
 		e.preventDefault() ;
 
-		const result = await fetch(
-			"https://m1.dysnomia.studio/api/Users/register", {
-				body: JSON.stringify(user),
-				headers: {
-					"Content-Type": "application/json"
-				},
-				method: "POST",
-				mode: "cors"
-			}
-		) ;
-
-		if(!result.ok){
-			const errorData = await result.text();
-			
-			setError(() => ({
-				title : "Mais qu'est ce qu'il se passe ?!",
-				message : errorData
-			})) ;
-      		throw new Error(errorData || "Une erreur s'est produite");
-			
-		}
-
-		const data = await result.text() ;
-
+		let data = await postSubscription(user, setError) ;
 		setToken(() => data) ;
 		navigate("/");
 		
