@@ -11,6 +11,8 @@ export default function Auth() {
     const setToken = useTokenSetter();
     const navigate = useNavigate();
 
+    const [error, setError] = useState(null) ;
+
     const [user, setUser] = useState({
         username: '',
         password: '',
@@ -27,14 +29,14 @@ export default function Auth() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const {data, error} = await postAuth(user) ;
+        const data = await postAuth(user, setError) ;
 
         // console.log("gagné : " + data) ;
-        setToken(data);
+        setToken(() => data);
         navigate("/");
     }
     
 	return (
-		<View user={user} handleChange={handleChange} handleSubmit={handleSubmit}/>
+		<View user={user} handleChange={handleChange} handleSubmit={handleSubmit} mess={error}/>
 	);
 }

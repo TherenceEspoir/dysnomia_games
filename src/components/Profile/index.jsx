@@ -21,6 +21,7 @@ export default function Profile() {
         const success = await deleteAccount();
         if (success) {
             alert('Compte supprimé avec succès');
+
             navigate('/') ;// Redirection vers la page d'accueil après la suppression du compte
         } else {
             alert(`Erreur lors de la suppression du compte : ${deleteError?.message}`);
