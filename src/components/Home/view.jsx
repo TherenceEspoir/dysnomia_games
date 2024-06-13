@@ -1,6 +1,6 @@
 import './index.css' ;
 
-export default function Results({movies, handleChange, title}){
+export default function Results({games, handleChange, title}){
     let myvalue = localStorage.getItem("searchWords") ;
     // console.log("en vue : ") ;
     // console.log(movies) ;
@@ -14,7 +14,7 @@ export default function Results({movies, handleChange, title}){
             <h1 className='text-center mb-4'>{title}</h1>
             
             
-            {movies.map((game) => (
+            {games.map((game) => (
                 <div key={game.id} className='row'>
                     <div className='col-6 text-end mb-3'><a href={`/game/${game.id}`} className='aGame'>{game.name}</a></div>
                     <div className='col-6'>{(game.rating || NaN).toFixed(3)}</div>

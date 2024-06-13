@@ -9,6 +9,10 @@ export function UserContextProvider({ children }) {
     const token = useToken();
 
     useEffect(() =>{
+        if(!token || token === 'null') {
+            return;
+        }
+
         async function getData(){
             const result = await fetch('https://m1.dysnomia.studio/api/Users/me', {
                 headers: {
