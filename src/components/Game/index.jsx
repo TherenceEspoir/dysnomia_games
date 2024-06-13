@@ -52,7 +52,7 @@ export default function GameDetails() {
 
     useEffect(() => {
         async function getInfos() {
-            const {data, error} = await getInfosByGameId(gameId) ; // appel d'un hook non possible ici ?!
+            const {data, error} = await getInfosByGameId(gameId) ; // appel d'un hook non possible ici => getFct dans bisiness
             setInfos(data) ;
         };
 
