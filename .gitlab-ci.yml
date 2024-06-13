@@ -1,0 +1,45 @@
+stages:
+  - test
+  - build
+  - dockerize
+
+variables:
+  NODE_ENV: 'development'
+  NODE_VERSION: '20.10.0'
+  DOCKER_IMAGE: $DOCKER_HUB_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA
+
+cache:
+  paths:
+    - node_modules/
+
+# Étape de test
+test:
+  stage: test
+  image: node:$NODE_VERSION
+  script:
+    - npm i
+    - npm run test
+
+# Étape de build
+build:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - npm i
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+
+# Étape de dockerization
+dockerize:
+  stage: dockerize
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+    - docker build -t $DOCKER_IMAGE .
+    - docker push $DOCKER_IMAGE
+  only:
+    - master
