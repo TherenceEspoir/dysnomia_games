@@ -48,6 +48,7 @@ export default function Game({name, summary, cover, screens, compagnies, handleA
 
     function Compagnies() {
         if(compagnies.length != 0 ){
+            console.log("cccccc")
             return (
                 <>
                     <h4 className='mt-5'>Compagnies impliquées : </h4>

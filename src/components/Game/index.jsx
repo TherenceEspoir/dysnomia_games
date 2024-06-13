@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
-import getCompanyById from "../../business/getCompanyById.js";
 import { useNavigate } from "react-router-dom";
 
 import Game from "./view";
@@ -9,6 +8,7 @@ import { useUser, useUserSetter } from "../../hooks/useUser.jsx";
 import postFavorite from "../../business/postFavorite.js";
 import deleteFavorite from "../../business/deleteFavorite.js";
 import getInfosByGameId from "../../business/getInfosByGameId.js";
+import useInfosGame from "../../hooks/useInfosGame.jsx";
 
 async function handleAdd(id, setUser, currentGame) {
     console.log("j'ajoute : " , id) ;
@@ -38,9 +38,6 @@ export default function GameDetails() {
 
     let { gameId } = useParams();
     const [infos, setInfos] = useState(null) ;
-    const [cover, setCover] = useState("null") ;
-    const [screenshots, setScreenshots] = useState([]) ;
-    const [compagnies, setCompagnies] = useState([]) ;
     const token = useToken() ;
     const user = useUser() ;
     const setUser = useUserSetter() ;
@@ -66,93 +63,7 @@ export default function GameDetails() {
     }, [gameId]) ;
 
 
-    useEffect(() => {
-        if(infos === null)
-            return ;
-
-        async function getCover() {
-            setCover("null") ;
-
-            const result = await fetch(
-                "https://m1.dysnomia.studio/api/Games/covers/" + infos.cover.id, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization : "Bearer " + localStorage.getItem('token')
-                    },
-                    method: "GET",
-                    mode: "cors"
-                }
-            ) ;
-            
-            if(!result.ok || result.status == 204){ //No content
-                const errorData = await result.text();
-                throw new Error(errorData || "Une erreur s'est produite pour récupérer la couverture");
-            }
-    
-            const data = await result.json() ;
-            setCover(data[0].url) ;
-        };
-
-
-        async function getScreenshots() {
-            setScreenshots([]) ;
-            let ids = infos.screenshots.ids ;
-
-            for(const id of ids){
-                const result = await fetch(
-                    "https://m1.dysnomia.studio/api/Games/screenshots/" + id, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization : "Bearer " + localStorage.getItem('token')
-                        },
-                        method: "GET",
-                        mode: "cors"
-                    }
-                ) ;
-                
-                if(!result.ok || result.status == 204){
-                    const errorData = await result.text();
-                    throw new Error(errorData || "Une erreur s'est produite pour récupérer un screen du jeu");
-                }
-        
-                const data = await result.json() ;
-                setScreenshots((currentTab) => ([
-                    ...currentTab,
-                    data[0].url
-                ])) ;
-            }
-
-        };
-
-
-        async function getCompagnies() {
-            setCompagnies([]) ;
-            let ids = infos.involvedCompanies.ids ;
-
-
-            for(const id of ids){
-                const { data, error } = await getCompanyById(id);
-
-                if(data != null){
-                    setCompagnies((currentTab) => ([
-                        ...currentTab,
-                        [id, data.name]
-                    ])) ;
-                }
-                
-            }
-        }
-
-
-        getCover() ;
-        getScreenshots() ;
-        getCompagnies() ;
-        // console.log(screenshots) ;
-
-    }, [infos])
-
-
-    
+    const {cover, screenshots, compagnies} = useInfosGame(infos) ;
 
     if(infos != null) {
         const uniqueItems = [...new Set(screenshots)];
