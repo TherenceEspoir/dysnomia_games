@@ -1,6 +1,11 @@
 import { useState} from "react";
+import { useUserSetter } from "./useUser";
+import { useTokenSetter } from "./useToken";
 
 export default function useDeleteAccount() {
+    const setUser = useUserSetter() ;
+	const setToken = useTokenSetter();
+
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(null);
 
@@ -20,6 +25,9 @@ export default function useDeleteAccount() {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error deleting account');
             }
+
+            setUser("null");
+            setToken("null") ;
 
             return true; // or any other success indication
         } catch (err) {
