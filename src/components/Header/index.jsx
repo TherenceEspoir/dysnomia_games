@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUser } from '../../hooks/useUser.jsx' ;
+import { useUser, useUserSetter } from '../../hooks/useUser.jsx' ;
 import { useToken, useTokenSetter } from '../../hooks/useToken.jsx';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' ;
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 export default function Header() {
 	let [sentence, setSentence] = useState('');
 	const user = useUser() ;
+	const setUser = useUserSetter() ;
 	const token = useToken() ;
 	const setToken = useTokenSetter();
 
@@ -27,6 +28,7 @@ export default function Header() {
 
 		function handleLogout(){
 			setToken("null") ;
+			setUser("null") ;
 		}
 
 		return (

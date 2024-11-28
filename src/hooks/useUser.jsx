@@ -35,7 +35,9 @@ export function UserContextProvider({ children }) {
     ,[token]);
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.removeItem('user') ;
+        if(user != "null")
+            localStorage.setItem('user', JSON.stringify(user));
     },[user]);
 
     return (
